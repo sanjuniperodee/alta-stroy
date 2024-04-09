@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+<title>Alta Stroy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css'%}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css'%}">
+
+    <link rel="stylesheet" href="{% static 'css/aos.css'%}">
+
+    <link rel="stylesheet" href="{% static 'css/style1.css'%}">
+  <link rel="stylesheet" href="{% static 'css/style2.css'%}">
+
+  </head>
+  <style>
+      *{
+        font-family: 'Montserrat', sans-serif;
+      }
+  </style>
+  <body>
+
+  <div class="site-wrap">
+    {% include 'header.html' %}
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'core:home' %}">Главная</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ item.category.title }}</strong>  /  </span> <strong class="text-black">{{ item.subcategory.title }}</strong>  /  </span> <strong class="text-black">{{ item.title }}</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <img src="{{ item.image.url }}" alt="Image" class="img-fluid">
+          </div>
+          <div class="col-md-6">
+            <h2 class="text-black">{{ item.title }}</h2>
+            <p><strong class="text-primary h4">{{ item.get_price }}₸</strong></p>
+            <p>Артикул: {{ item.articul }}</p>
+              <p>Бренд: {{ item.brand }}</p>
+              <p>Диаметр: {{ item.diameter }}</p>
+              <p>Длинна: {{ item.length }}</p>
+              <p>Ширина: {{ item.width }}</p>
+              <p>Высота: {{ item.height }}</p>
+            <div class="mb-5">
+              <div class="input-group mb-3" style="max-width: 120px;">
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+              </div>
+              <input type="text" class="form-control text-center" value="1" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+              <div class="input-group-append">
+                <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+              </div>
+            </div>
+
+            </div>
+          <p><button class="buy-now btn btn-sm btn-primary" id="add_to_card"  value="{{ item.slug }}" type="button" name="{{ item.title }}">В Корзину</button></p>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  <hr>
+  <div class="row d-flex justify-content-between" style="margin-left: 10%; margin-right: 10%">
+      <div style="margin-bottom: 50px">
+      <h2 style="color: black;">Внешность:</h2>
+          {% for text in description2 %}
+              <p>{{ text }}</p>
+          {% endfor %}
+      </div>
+
+      <div style="margin-bottom: 50px">
+        <h2 style="color: black">Тех описание:</h2>
+          {% for text in description1 %}
+                  <p>{{ text }}</p>
+              {% endfor %}
+      </div>
+  </div>
+
+    {% include 'footer.html' %}
+  </div>
+
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-ui.js'%}"></script>
+  <script src="{% static 'js/popper.min.js'%}"></script>
+  <script src="{% static 'js/bootstrap.min.js'%}"></script>
+  <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+  <script src="{% static 'js/jquery.magnific-popup.min.js'%}"></script>
+  <script src="{% static 'js/aos.js'%}"></script>
+  <script src="{% static 'js/main.js'%}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+  <script type="text/javascript">
+    const buttons = document.querySelectorAll('button[id="add_to_card"]');
+    console.log(buttons)
+    for(let i = 0; i < buttons.length ; i++) {
+        if(buttons[i].id == 'add_to_card'){
+            console.log(buttons[i]['value'])
+            buttons[i].addEventListener('click',function(e){
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    url:'{% url "core:add-to-cart1" %}',
+                    data:
+                    {
+                        slug:buttons[i]['value'],
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    dataType:'json',
+                    success:function(){
+                        let p = document.getElementById('number');
+                        console.log(p)
+                        alert("Добавлено в корзину " + buttons[i]['name']);
+                    }
+                })
+            });
+        }
+    }
+</script>
+
+  </body>
+</html>

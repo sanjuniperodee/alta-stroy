@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+  <head>
+<title>Alta Stroy</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mukta:300,400,700">
+    <link rel="stylesheet" href="{% static 'fonts/icomoon/style.css'%}">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/aos.css'%}">
+    <link rel="stylesheet" href="{% static 'css/style1.css'%}">
+  <link rel="stylesheet" href="{% static 'css/style2.css'%}">
+
+  </head>
+  <body>
+
+  <div class="site-wrap">
+    {% include 'header.html'  %}
+
+    <div class="bg-light py-3">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 mb-0"><a href="{% url 'core:home' %}">Главная</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ category.title }}</strong></span> <strong class="text-black">/{{ subcategory.title }}</strong></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="site-section">
+      <div class="container">
+        <div class="row mb-5">
+
+          <div class="col-md-9 order-2">
+
+            <div class="row">
+              <div class="col-md-12 mb-5">
+                <div class="float-md-left mb-4"><h2 class="text-black h5">Все товары</h2></div>
+              </div>
+            </div>
+            <div class="row mb-5">
+            {% for item in items %}
+              <div class="col-sm-6 col-lg-4 mb-4" data-aos="fade-up">
+                <div class="block-4 text-center border">
+                  <figure class="block-4-image">
+                    <a href="{% url 'core:detail' item.slug %}"><img src="{{ item.image.url }}" alt="Image placeholder" class="img-fluid" style="height: 250px"></a>
+                  </figure>
+                  <div class="block-4-text p-4" style="color: black">
+                    <h3><a class="text-dark" href="{% url 'core:detail' item.slug %}" style="font-size: 80%">{{ item.title }}</a></h3>
+                      <p class="font-weight-bold text-dark" style="font-size: 120%; font-weight: bold; color: black">₸{{ item.get_price }}</p>
+                  </div>
+                    <p><button class="buy-now btn btn-sm btn-primary" id="add_to_card"  value="{{ item.slug }}" type="button" name="{{ item.title }}">В Корзину</button></p>
+
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+{#          {% endif %}#}
+{#            {% if items.has_other_pages %}#}
+{#              <nav class="d-flex justify-content-center wow fadeIn">#}
+{#                <ul class="pagination pg-blue">#}
+{#                  {% if items.has_previous %}#}
+{#                  <li class="page-item">#}
+{##}
+{#                    <a class="page-link" href="?page={{ items.previous_page_number }}" aria-label="Previous">#}
+{#                      <span aria-hidden="true">&laquo;</span>#}
+{#                      <span class="sr-only">Previous</span>#}
+{#                    </a>#}
+{#                  </li>#}
+{#                  {% endif %}#}
+{##}
+{#                  <li class="page-item active">#}
+{#                    <a class="page-link" href="?page={{ items.number }}">{{ items.number }}#}
+{#                      <span class="sr-only">(current)</span>#}
+{#                    </a>#}
+{#                  </li>#}
+{##}
+{#                  {% if items.has_next %}#}
+{#                  <li class="page-item">#}
+{#                    <a class="page-link" href="?page={{ items.next_page_number }}" aria-label="Next">#}
+{#                      <span aria-hidden="true">&raquo;</span>#}
+{#                      <span class="sr-only">Next</span>#}
+{#                    </a>#}
+{#                  </li>#}
+{#                  {% endif %}#}
+{#                </ul>#}
+{#              </nav>#}
+{#              {% endif %}#}
+            <div class="row" data-aos="fade-up">
+              <div class="col-md-12 text-center">
+                <div class="site-block-27">
+                  <ul>
+                    {% if items.has_previous %}
+                      <li><a href="?page={{ items.previous_page_number }}{% if articul %}&articul={{ articul }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}" class="previous">&lt;<</a></li>
+                    {% endif %}
+                    {% for link in pagination_links %}
+                      <li><a href="?{{ link.query_parameters }}">{{ link.page_number }}</a></li>
+                    {% endfor %}
+                    {% if items.has_next %}
+                      <li><a href="?page={{ items.next_page_number }}{% if articul %}&articul={{ articul }}{% endif %}{% if min_price %}&min_price={{ min_price }}{% endif %}{% if max_price %}&max_price={{ max_price }}{% endif %}" class="next">>&gt;</a></li>
+                    {% endif %}
+{#                  {% if items.has_previous %}#}
+{#                    <li><a href="?page={{ items.previous_page_number }}">&lt;</a></li>#}
+{#                  {% endif %}#}
+{#                      {% for i in pages %}#}
+{#                          <li {% if items.number == i %}class="active"{% endif %}><a href="?page={{ i }}?{{ link.query_parameters }}"><span>{{ i }}</span></a></li>#}
+{#                      {% endfor %}#}
+{#                  {% if items.has_next %}#}
+{#                    <li><a href="?page={{ items.next_page_number }}">&gt;</a></li>#}
+{#                  {% endif %}#}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-3 order-1 mb-5 mb-md-0">
+            <div class="border p-4 rounded mb-4">
+              <h2 class="mb-3 h6 text-black d-block">Категории</h2>
+              {% if category != 'all' %}
+              <ul class="list-unstyled mb-0">
+                  {% for sub in category.subcategories.all %}
+                      {%  if sub.title == subcategory.title %}
+                  <li class="mb-1"><a href="{% url 'core:shop' category.title sub.title %}" class="d-flex"><span>{{ sub.title }}</span></a></li>
+                      {% else %}
+                  <li class="mb-1"><a href="{% url 'core:shop' category.title sub.title %}" class="d-flex text-dark"><p>{{ sub.title }}</p></a></li>
+                      {% endif %}
+                  {% endfor %}
+              </ul>
+              {% else %}
+            <ul class="list-unstyled mb-0">
+                  {% for sub in categories %}
+                <li class="mb-1"><a href="{% url 'core:shop' sub.title 'all'%}" class="d-flex"><span>{{ sub.title }}</span> <span class="text-black ml-auto"></span></a></li>
+                  {% endfor %}
+              </ul>
+            {% endif %}
+            </div>
+<form method="get">
+            <div class="border p-4 rounded mb-4">
+                <div class="box">
+  <h3 class="mb-3 h6 text-black d-block">Цена</h3>
+                    <div class="price-input">
+        <div class="field">
+            <div style="display:flex;">
+          <span>от:</span>
+          <input type="number" style="border: none; width: 78px" class="input-min" value="0">
+            </div>
+            <div style="display:flex;">
+            <span>до:</span>
+          <input type="number" style="border: none; width: 78px;" class="input-max" value="1000000">
+            </div>
+        </div>
+        <div class="field">
+
+        </div>
+      </div>
+      <div class="slider">
+        <div class="progress"></div>
+      </div>
+      <div class="range-input">
+        <input type="range" class="range-min" min="0" name="min_price" max="990000" value="0" step="1000">
+        <input type="range" class="range-max" min="0" name="max_price" max="1000000" value="1000000" step="1000">
+      </div>
+{#    <div class="values">#}
+{#        <div>₸<span id="first"></span></div> - <div>₸<span id="second"></span></div>#}
+{#    </div>#}
+{##}
+{#    <div class="slider" data-value-0="#first" data-value-1="#second" data-range="#third"></div>#}
+
+</div>
+
+              </div>
+                </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {% include  'footer.html' %}
+  </div>
+
+  <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+  <script src="{% static 'js/jquery-ui.js'%}"></script>
+  <script src="{% static 'js/popper.min.js'%}"></script>
+  <script src="{% static 'js/bootstrap.min.js'%}"></script>
+  <script src="{% static 'js/owl.carousel.min.js'%}"></script>
+  <script src="{% static 'js/jquery.magnific-popup.min.js'%}"></script>
+  <script src="{% static 'js/aos.js'%}"></script>
+  <script src="{% static 'js/main.js'%}"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.css">
+{#  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.js"></script>#}
+  <script src="https://cdpn.io/cpe/boomboom/pen.js?key=pen.js-2219196b-3514-a640-a3ea-997fd6b302a0" crossorigin=""></script>
+  <script>
+      const rangeInput = document.querySelectorAll(".range-input input"),
+priceInput = document.querySelectorAll(".price-input input"),
+range = document.querySelector(".slider .progress");
+let priceGap = 1000;
+
+priceInput.forEach(input =>{
+    input.addEventListener("input", e =>{
+        let minPrice = parseInt(priceInput[0].value),
+        maxPrice = parseInt(priceInput[1].value);
+
+        if((maxPrice - minPrice >= priceGap) && maxPrice <= rangeInput[1].max){
+            if(e.target.className === "input-min"){
+                rangeInput[0].value = minPrice;
+                range.style.left = ((minPrice / rangeInput[0].max) * 100) + "%";
+            }else{
+                rangeInput[1].value = maxPrice;
+                range.style.right = 100 - (maxPrice / rangeInput[1].max) * 100 + "%";
+            }
+        }
+    });
+});
+
+rangeInput.forEach(input =>{
+    input.addEventListener("input", e =>{
+        let minVal = parseInt(rangeInput[0].value),
+        maxVal = parseInt(rangeInput[1].value);
+
+        if((maxVal - minVal) < priceGap){
+            if(e.target.className === "range-min"){
+                rangeInput[0].value = maxVal - priceGap
+            }else{
+                rangeInput[1].value = minVal + priceGap;
+            }
+        }else{
+            priceInput[0].value = minVal;
+            priceInput[1].value = maxVal;
+            range.style.left = ((minVal / rangeInput[0].max) * 100) + "%";
+            range.style.right = 100 - (maxVal / rangeInput[1].max) * 100 + "%";
+        }
+    });
+});
+  </script>
+  </body>
+    <script type="text/javascript">
+    const buttons = document.querySelectorAll('button[id="add_to_card"]');
+    console.log(buttons)
+    for(let i = 0; i < buttons.length ; i++) {
+        if(buttons[i].id == 'add_to_card'){
+            console.log(buttons[i]['value'])
+            buttons[i].addEventListener('click',function(e){
+                e.preventDefault();
+                $.ajax({
+                    type:'POST',
+                    url:'{% url "core:add-to-cart1" %}',
+                    data:
+                    {
+                        slug:buttons[i]['value'],
+                        csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    dataType:'json',
+                    success:function(){
+                        let p = document.getElementById('number');
+                        console.log(p)
+                        alert("Добавлено в корзину " + buttons[i]['name']);
+                    }
+                })
+            });
+        }
+    }
+</script>
+</html>
