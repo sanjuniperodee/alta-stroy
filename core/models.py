@@ -56,6 +56,9 @@ class Color(models.Model):
     title = models.CharField(max_length=100,null=True, blank=True)
     encode = models.CharField(max_length=100,null=True, blank=True)
 
+    def __str__(self):
+        return self.title
+
 
 class Item(models.Model):
     title = models.CharField(max_length=100)
